@@ -2,12 +2,23 @@ module Buttons exposing (..)
 
 -- Press buttons to increment and decrement a counter.
 --
--- Read how it works:
+-- An example from the Official Guide but with elm-ui. The original example:
 --   https://guide.elm-lang.org/architecture/buttons.html
 --
 
 import Browser
-import Element exposing (row, text, layout)
+import Element
+    exposing
+        ( Element
+        , centerX
+        , column
+        , el
+        , fill
+        , layout
+        , text
+        , width
+        )
+import Element.Font as Font
 import Element.Input exposing (button)
 import Html exposing (Html)
 
@@ -54,14 +65,29 @@ update msg model =
 
 
 
+-- Help text Element
+
+
+centerXText : String -> Element Msg
+centerXText str =
+    el [ centerX, Font.size 48 ] <| text str
+
+
+
 -- VIEW
 
 
 view : Model -> Html Msg
 view model =
     layout [] <|
-        row []
-            [ button [] { onPress = Just Decrement, label = text "-" }
-            , text <| String.fromInt model
-            , button [] { onPress = Just Increment, label = text "+" }
+        column [ width fill ]
+            [ button [ width fill ]
+                { onPress = Just Decrement
+                , label = centerXText "-"
+                }
+            , el [ width fill ] <| centerXText <| String.fromInt model
+            , button [ width fill ]
+                { onPress = Just Increment
+                , label = centerXText "+"
+                }
             ]
